@@ -166,7 +166,12 @@ router.use('/product',
 
     router.get('/getAll', async (req, res) => {
         try {
-            const response = await axios.get(storeUrl + '/product' + '/getAll');
+            let path = storeUrl + '/product' + '/getAll';
+            const {limit, page, brandId, typeId, orderBy, order} = req.query;
+            if(limit) {
+                path += '?limit='
+            }
+            const response = await axios.get();
             return res.status(response.status).json(response.data);
         } catch (e) {
             const response = e.response;
@@ -177,7 +182,7 @@ router.use('/product',
     router.get('/getById/:id', async (req, res) => {
         try {
             const {id} = req.params;
-            const response = await axios.delete(storeUrl + '/product' + '/getById/' + id);
+            const response = await axios.get(storeUrl + '/product' + '/getById/' + id);
             return res.status(response.status).json(response.data);
         } catch (e) {
             const response = e.response;

@@ -1,0 +1,20 @@
+version: "3"
+
+services:
+  gateway_api:
+    build: ./backend/API_gateway
+    ports:
+      - 5002:5002
+    links:
+      - authorization_api:authorization_api
+      - store_api:store_api
+  store_api:
+    build: ./backend/API_store
+    ports:
+      - 5003:5003
+    links:
+      - authorization_api:authorization_api
+  authorization_api:
+    build: ./backend/API_authorization_server
+    ports:
+      - 5004:5004
