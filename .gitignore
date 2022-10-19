@@ -1,0 +1,17 @@
+.idea
+.$architecture_diagram.drawio.bkp
+.$use_case_diagram.drawio.bkp
+.DS_Store
+er_diagram.mwb.bak
+backend/API_authorization_server/.idea/
+backend/API_authorization_server/node_modules/
+backend/API_cdn/.idea/
+backend/API_cdn/node_modules/
+backend/API_cdn/data/
+backend/API_store/.idea/
+backend/API_store/node_modules/
+backend/API_gateway/.idea/
+backend/API_gateway/node_modules/
+backend/integration_tests/.idea/
+backend/integration_tests/node_modules/
+backend/integration_tests/coverage/

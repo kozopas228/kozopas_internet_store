@@ -1,0 +1,514 @@
+{
+	"info": {
+		"_postman_id": "02660902-17bb-4edf-9873-a2d9d6392ef0",
+		"name": "kozopas internet store collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "store_api",
+			"item": [
+				{
+					"name": "get list of products",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{store_url}}/api/product/getAll",
+							"host": [
+								"{{store_url}}"
+							],
+							"path": [
+								"api",
+								"product",
+								"getAll"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get product by id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{store_url}}/api/product/getById/:id",
+							"host": [
+								"{{store_url}}"
+							],
+							"path": [
+								"api",
+								"product",
+								"getById",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "13"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create new product",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "fuckckfff",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "10000",
+									"type": "text"
+								},
+								{
+									"key": "quantity",
+									"value": "10",
+									"type": "text"
+								},
+								{
+									"key": "brandId",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "typeId",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "colorsIds",
+									"value": "[1,2]",
+									"type": "text"
+								},
+								{
+									"key": "productSpecs",
+									"value": "[\n        {\"title\": \"title1\", \"description\": \"description1\"},\n        {\"title\": \"title2\", \"description\": \"description2\"}\n    ]",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/Users/andrey/Desktop/2022-08-27 18.40.20.png"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{store_url}}/api/product/create",
+							"host": [
+								"{{store_url}}"
+							],
+							"path": [
+								"api",
+								"product",
+								"create"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "authorization_api",
+			"item": [
+				{
+					"name": "register new user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\",  () => {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test('returned jwt', () => {",
+									"    pm.expect(pm.response.json().token).to",
+									"        .match(/^[A-Za-z0-9-_]*\\.[A-Za-z0-9-_]*\\.[A-Za-z0-9-_]*$/);",
+									"});",
+									"",
+									"",
+									"const resultData = JSON.parse(pm.request.body.raw);",
+									"",
+									"const email = resultData.email;",
+									"const username = resultData.username;",
+									"const password = resultData.password;",
+									"",
+									"pm.collectionVariables.set('email', email);",
+									"pm.collectionVariables.set('username', username);",
+									"pm.collectionVariables.set('password', password);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"{{$randomUserName}}\",\n    \"email\": \"{{$randomEmail}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{authorization_url}}/api/user/register",
+							"host": [
+								"{{authorization_url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login a user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"returns jwt\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.token).to.",
+									"    match(/^[A-Za-z0-9-_]*\\.[A-Za-z0-9-_]*\\.[A-Za-z0-9-_]*$/);",
+									"});",
+									"",
+									"",
+									"pm.collectionVariables.set(\"token\", pm.response.json().token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"entryData\": \"{{email}}\",\n    \"password\": \"{{password}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{authorization_url}}/api/user/login",
+							"host": [
+								"{{authorization_url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "check",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{authorization_url}}/api/user/check",
+							"host": [
+								"{{authorization_url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"check"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "change user email",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.collectionVariables.set(\"email\", JSON.parse(pm.request.body.raw).email);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"${{$randomEmail}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{authorization_url}}/api/user/changeemail",
+							"host": [
+								"{{authorization_url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"changeemail"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "change user username",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test('message is changed', () => {",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.eql('changed');",
+									"});",
+									"",
+									"",
+									"pm.collectionVariables.set(\"username\", JSON.parse(pm.request.body.raw).username);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"{{$randomUserName}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{authorization_url}}/api/user/changeusername",
+							"host": [
+								"{{authorization_url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"changeusername"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "change user password",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test('message is changed', () => {",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.eql('changed');",
+									"});",
+									"",
+									"",
+									"pm.collectionVariables.set(\"password\", JSON.parse(pm.request.body.raw).password);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"oldPassword\": \"{{password}}\",\n    \"newPassword\": \"{{$randomPassword}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{authorization_url}}/api/user/changepassword",
+							"host": [
+								"{{authorization_url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"changepassword"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "change user roles",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 2,\n    \"rolesIds\": [1,2]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{authorization_url}}/api/user/changeroles",
+							"host": [
+								"{{authorization_url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"changeroles"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "password",
+			"value": ""
+		},
+		{
+			"key": "email",
+			"value": ""
+		},
+		{
+			"key": "username",
+			"value": ""
+		},
+		{
+			"key": "token",
+			"value": ""
+		}
+	]
+}

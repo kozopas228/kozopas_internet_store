@@ -1,0 +1,12 @@
+const config = {
+    dbName: "kozopas_internet_store",
+    dbUser: "root",
+    dbPassword: "P@ssw0rd",
+    dbHost: "localhost",
+    dbPort: 3306,
+    jwtSecret: "super_fuck",
+    applicationPort: 5003,
+    cdnUrl: 'http://localhost:5005'
+}
+
+module.exports = config;
